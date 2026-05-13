@@ -19,9 +19,11 @@ export async function handleDirectionBusiness({ callbackQuery, env, telegram }) 
   const chatId = callbackQuery.message?.chat?.id;
   const fromUser = callbackQuery.from || callbackQuery.from_user;
   if (!chatId) {
+    console.error("direction_business: chatId is missing", JSON.stringify(callbackQuery));
     return;
   }
   if (!fromUser) {
+    console.error("direction_business: fromUser is missing", JSON.stringify(callbackQuery));
     return;
   }
 

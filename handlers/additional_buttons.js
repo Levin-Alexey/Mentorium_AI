@@ -2,7 +2,7 @@ export function getAdditionalButtons() {
   return [
     [
       {
-        text: "💬 Написать в поддержку",
+        text: "💬 Обратиться в поддержку",
         url: "https://t.me/LevinMSK",
       },
     ],

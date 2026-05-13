@@ -11,30 +11,32 @@ import { handleEnrollCourse, handlePurchaseCourse } from "./enroll_course.js";
 export async function handleCallback({ callbackQuery, env, telegram }) {
   const data = callbackQuery.data || "";
 
-  if (data === "direction_personal") {
-    await handleDirectionPersonal({ callbackQuery, env, telegram });
-  } else if (data === "direction_business") {
-    await handleDirectionBusiness({ callbackQuery, env, telegram });
-  } else if (data === "speaker_info") {
-    await handleSpeakerInfo({ callbackQuery, env, telegram });
-  } else if (data === "private_channel") {
+  try {
+    if (data === "direction_personal") {
+      await handleDirectionPersonal({ callbackQuery, env, telegram }).catch(e => { console.error("direction_personal error:", e); throw e; });
+    } else if (data === "direction_business") {
+      await handleDirectionBusiness({ callbackQuery, env, telegram }).catch(e => { console.error("direction_business error:", e); throw e; });
+    } else if (data === "speaker_info") {
+      await handleSpeakerInfo({ callbackQuery, env, telegram });
+    } else if (data === "private_channel") {
+      await telegram.answerCallbackQuery(env.BOT_TOKEN, {
+        callback_query_id: callbackQuery.id,
+        text: getPrivateChannelAlertText(),
+        show_alert: true,
+      });
+      return;
+    } else if (data === "register" || data === "scale_business") {
+      await handleRegisterFlow({ callbackQuery, env, telegram });
+    } else if (data.startsWith("confirm_registration_")) {
+      await handleConfirmRegistration({ callbackQuery, env, telegram });
+    } else if (data === "enroll_course") {
+      await handleEnrollCourse({ callbackQuery, env, telegram });
+    } else if (data === "purchase_course") {
+      await handlePurchaseCourse({ callbackQuery, env, telegram });
+    }
+  } finally {
     await telegram.answerCallbackQuery(env.BOT_TOKEN, {
       callback_query_id: callbackQuery.id,
-      text: getPrivateChannelAlertText(),
-      show_alert: true,
     });
-    return;
-  } else if (data === "register" || data === "scale_business") {
-    await handleRegisterFlow({ callbackQuery, env, telegram });
-  } else if (data.startsWith("confirm_registration_")) {
-    await handleConfirmRegistration({ callbackQuery, env, telegram });
-  } else if (data === "enroll_course") {
-    await handleEnrollCourse({ callbackQuery, env, telegram });
-  } else if (data === "purchase_course") {
-    await handlePurchaseCourse({ callbackQuery, env, telegram });
   }
-
-  await telegram.answerCallbackQuery(env.BOT_TOKEN, {
-    callback_query_id: callbackQuery.id,
-  });
 }
