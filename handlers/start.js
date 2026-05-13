@@ -34,7 +34,7 @@ export async function handleStart({ message, env, telegram }) {
     if (upcoming.webinar_link) {
       inlineKeyboard.push([
         {
-          text: "🎥 Ссылка на вебинар",
+          text: "🎥 Ваша ссылка на вебинар",
           url: upcoming.webinar_link,
         },
       ]);
