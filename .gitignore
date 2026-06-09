@@ -1,2 +1,30 @@
 # Local database schema/data
 *.sql
+
+# Dependencies
+node_modules/
+
+# Wrangler build/cache
+.wrangler/
+
+# Environment variables
+.env
+.env.*
+.dev.vars
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+wget-log
+
+# Temporary: do not commit local npm metadata
+package.json
+package-lock.json
